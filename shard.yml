@@ -1,0 +1,14 @@
+name: mjollnir
+version: 0.1.0
+
+description: |
+  Mjollnir, a standalone PostgreSQL driver for Crystal with no dependencies.
+  Zero-copy binary protocol decoding, cached server-side prepared statements,
+  compile-time-specialised parameter encoding and pipelined batch execution.
+
+authors:
+  - Mjollnir contributors
+
+crystal: ">= 1.11.0, < 2.0.0"
+
+license: MIT

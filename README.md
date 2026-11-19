@@ -1,3 +1,5 @@
+<img width="461 " height="307" alt="Mjölnir Lightning Impact" src="https://github.com/user-attachments/assets/d4a758e3-5fa5-4581-8d32-176db2a14a53" />
+
 # Mjollnir
 
 A standalone PostgreSQL driver for Crystal. It has **no dependencies** beyond

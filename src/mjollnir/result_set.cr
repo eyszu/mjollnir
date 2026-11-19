@@ -266,6 +266,12 @@ module Mjollnir
           when Int    then {{base}}.from_value(value)
           else             mismatch(type, current_kind)
           end
+        {% elsif base < Tuple %}
+          Tuple.new(
+            {% for t in base.type_vars %}
+              read({{t}}),
+            {% end %}
+          )
         {% elsif base.class.has_method?(:from_rs) %}
           {{base}}.from_rs(self)
         {% else %}

@@ -41,7 +41,7 @@ dependencies:
 ```crystal
 require "mjollnir"
 
-Mjollnir.open("mjollnir://app:secret@localhost/appdb") do |db|
+Mjollnir.open("postgres://app:secret@localhost/appdb") do |db|
   db.exec "create table if not exists users (id int8 primary key, name text)"
   db.exec "insert into users values ($1, $2)", 1, "Thor"
 
@@ -60,7 +60,7 @@ and closes it when the block ends.
 ### The URL
 
 ```
-mjollnir://user:password@host:port/database?option=value
+postgres://user:password@host:port/database?option=value
 ```
 
 Missing parts fall back to the standard PostgreSQL environment variables
@@ -105,7 +105,7 @@ Use a pool whenever more than one fiber talks to the database. A single
 | anything else | | Sent to PostgreSQL as a session setting, e.g. `search_path=app,public` or `statement_timeout=5000`. |
 
 ```crystal
-url = "mjollnir://app:secret@db.internal/appdb" \
+url = "postgres://app:secret@db.internal/appdb" \
       "?application_name=billing&max_pool_size=20&statement_timeout=5000"
 ```
 
@@ -114,7 +114,7 @@ url = "mjollnir://app:secret@db.internal/appdb" \
 Percent-encode the socket directory as the host:
 
 ```crystal
-Mjollnir.open("mjollnir://app:secret@%2Fvar%2Frun%2Fpostgresql/appdb") { |db| ... }
+Mjollnir.open("postgres://app:secret@%2Fvar%2Frun%2Fpostgresql/appdb") { |db| ... }
 ```
 
 ### TLS
@@ -548,7 +548,7 @@ call. When a fiber needs a connection and all are busy, it waits up to
 `checkout_timeout` seconds, then gets `PoolTimeout`.
 
 ```crystal
-db = Mjollnir.pool("mjollnir://app:secret@localhost/appdb?max_pool_size=10")
+db = Mjollnir.pool("postgres://app:secret@localhost/appdb?max_pool_size=10")
 
 10.times do |i|
   spawn do
@@ -676,7 +676,7 @@ library. Most code changes are mechanical.
 | crystal-pg / crystal-db | Mjollnir |
 |---|---|
 | `require "pg"` | `require "mjollnir"` |
-| `DB.open("postgres://...")` | `Mjollnir.open("mjollnir://...")` |
+| `DB.open("postgres://...")` | `Mjollnir.open("postgres://...")` |
 | `db.exec`, `db.query_one`, `db.query_all`, `db.scalar` | same names and argument style |
 | `db.query(sql, args) { \|rs\| rs.each { rs.read(...) } }` | same |
 | `db.transaction do \|tx\| tx.connection.exec ... end` | `db.transaction do \|tx\| tx.exec ... end` (`tx.connection` also exists) |

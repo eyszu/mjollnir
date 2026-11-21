@@ -25,7 +25,7 @@ require "./mjollnir/pool"
 # ```
 # require "mjollnir"
 #
-# Mjollnir.open("mjollnir://user:pass@localhost/appdb") do |db|
+# Mjollnir.open("postgres://user:pass@localhost/appdb") do |db|
 #   db.exec "insert into users (id, name) values ($1, $2)", 1, "Thor"
 #   name = db.query_one("select name from users where id = $1", 1, as: String)
 # end

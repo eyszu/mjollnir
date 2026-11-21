@@ -12,14 +12,14 @@ describe Mjollnir do
 
     it "rejects a wrong password with a PGError" do
       ex = expect_raises(Mjollnir::PGError) do
-        Mjollnir.open("mjollnir://mjol:wrong@127.0.0.1/mjol") { |db| db.scalar("select 1") }
+        Mjollnir.open("postgres://mjol:wrong@127.0.0.1/mjol") { |db| db.scalar("select 1") }
       end
       ex.code.should eq "28P01"
     end
 
     it "raises ConnectionRefused when nothing listens" do
       expect_raises(Mjollnir::ConnectionRefused) do
-        Mjollnir.open("mjollnir://mjol:mjol@127.0.0.1:1/mjol?initial_pool_size=1") { |db| db.scalar("select 1") }
+        Mjollnir.open("postgres://mjol:mjol@127.0.0.1:1/mjol?initial_pool_size=1") { |db| db.scalar("select 1") }
       end
     end
 
@@ -40,7 +40,7 @@ describe Mjollnir do
 
     it "connects over a unix socket when one exists" do
       if File.exists?("/var/run/postgresql/.s.PGSQL.5432") && ENV["MJOLLNIR_TEST_UNIX"]?
-        with_db("mjollnir://mjol:mjol@%2Fvar%2Frun%2Fpostgresql/mjol") { |db| db.scalar("select 1").should eq 1 }
+        with_db("postgres://mjol:mjol@%2Fvar%2Frun%2Fpostgresql/mjol") { |db| db.scalar("select 1").should eq 1 }
       end
     end
 
@@ -681,7 +681,7 @@ describe Mjollnir do
 
   describe Mjollnir::ConnInfo do
     it "parses URIs" do
-      i = Mjollnir::ConnInfo.from_uri(URI.parse("mjollnir://u:p%40ss@db.example:6543/app?sslmode=require&application_name=x&search_path=a&max_pool_size=3"))
+      i = Mjollnir::ConnInfo.from_uri(URI.parse("postgres://u:p%40ss@db.example:6543/app?sslmode=require&application_name=x&search_path=a&max_pool_size=3"))
       i.host.should eq "db.example"
       i.port.should eq 6543
       i.user.should eq "u"
@@ -693,7 +693,7 @@ describe Mjollnir do
     end
 
     it "treats a host starting with / as a unix socket directory" do
-      i = Mjollnir::ConnInfo.from_uri(URI.parse("mjollnir://u@%2Fvar%2Frun%2Fpostgresql/app"))
+      i = Mjollnir::ConnInfo.from_uri(URI.parse("postgres://u@%2Fvar%2Frun%2Fpostgresql/app"))
       i.unix_socket?.should be_true
       i.host.should eq "/var/run/postgresql"
     end

@@ -16,9 +16,9 @@ module Mjollnir
   # Connection parameters parsed from a URL.
   #
   # ```text
-  # mjollnir://user:pass@host:5432/dbname?sslmode=require&application_name=app
-  # mjollnir://user@%2Fvar%2Frun%2Fpostgresql/dbname      (unix socket directory)
-  # mjollnir:///dbname?host=/var/run/postgresql&user=app   (same, via query)
+  # postgres://user:pass@host:5432/dbname?sslmode=require&application_name=app
+  # postgres://user@%2Fvar%2Frun%2Fpostgresql/dbname      (unix socket directory)
+  # postgres:///dbname?host=/var/run/postgresql&user=app   (same, via query)
   # ```
   struct ConnInfo
     getter host : String

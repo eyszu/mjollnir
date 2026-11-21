@@ -13,7 +13,7 @@ compile-time specialisation, cheap value types and fibers on one event loop.
 ```crystal
 require "mjollnir"
 
-Mjollnir.open("mjollnir://app:secret@localhost/appdb") do |db|
+Mjollnir.open("postgres://app:secret@localhost/appdb") do |db|
   db.exec "create table if not exists users (id int8 primary key, name text, tags text[])"
   db.exec "insert into users values ($1, $2, $3)", 1, "Thor", ["hammer", "thunder"]
 
@@ -67,7 +67,7 @@ db.close
 Mjollnir.connect(url) { |conn| ... }
 ```
 
-URL: `mjollnir://user:pass@host:5432/dbname?param=value`
+URL: `postgres://user:pass@host:5432/dbname?param=value`
 
 | Parameter | Meaning |
 |---|---|
@@ -465,7 +465,7 @@ Optional spec environment variables:
 
 | Variable | Enables |
 |---|---|
-| `MJOLLNIR_URL` | Connection URL for the main suite (default `mjollnir://mjol:mjol@127.0.0.1/mjol`) |
+| `MJOLLNIR_URL` | Connection URL for the main suite (default `postgres://mjol:mjol@127.0.0.1/mjol`) |
 | `MJOLLNIR_MD5_URL`, `MJOLLNIR_CLEARTEXT_URL` | md5 and cleartext authentication specs (need matching `pg_hba.conf` rules) |
 | `MJOLLNIR_TEST_UNIX` | Unix-socket spec |
 

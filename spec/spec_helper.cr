@@ -1,7 +1,7 @@
 require "spec"
 require "../src/mjollnir"
 
-URL = ENV["MJOLLNIR_URL"]? || "mjollnir://mjol:mjol@127.0.0.1/mjol"
+URL = ENV["MJOLLNIR_URL"]? || "postgres://mjol:mjol@127.0.0.1/mjol"
 
 def with_db(url : String = URL, &)
   Mjollnir.open(url) { |db| yield db }
